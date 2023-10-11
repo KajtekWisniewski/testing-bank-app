@@ -7,8 +7,16 @@ class Konto:
             self.pesel = "Niepoprawny Pesel!"
         else:
             self.pesel = pesel
-        if promo_code is not None:
-            if promo_code.startswith('PROM_') and len(promo_code) == 8:
-                self.saldo = 50
-            else:
-                self.saldo = 0
+        if self.is_promo_code_correct(promo_code):
+            self.saldo = 50
+        else:
+            self.saldo = 0
+    
+    def is_promo_code_correct(self, promo_code):
+        if promo_code is None:
+            return False
+        if promo_code.startswith('PROM_') and len(promo_code) == 8:
+            return True
+        else:
+            return False
+    

@@ -6,7 +6,7 @@ class TestCreateBankAccount(unittest.TestCase):
 
     imie = 'Dariusz'
     nazwisko ='Januszewski'
-    pesel = '12345678901'
+    pesel = '89345678901'
     kodrabatowy = 'PROM_XYZ'
 
     def test_tworzenie_konta(self):
@@ -44,4 +44,21 @@ class TestCreateBankAccount(unittest.TestCase):
         konto = Konto(self.imie, self.nazwisko, self.pesel,"PROM_XYZ")
         self.assertEqual(konto.saldo, 50, "promo nie naliczone")
 
+    def test_promo_year_59(self):
+        konto = Konto(self.imie,self.nazwisko, 59345678901)
+
+    def test_promo_year_60(self):
+        konto = Konto(self.imie,self.nazwisko, 89345678901)
+
+    def test_promo_year_89(self):
+        konto = Konto(self.imie,self.nazwisko, self.pesel)
+    
+    def test_promo_year_01(self):
+        konto = Konto(self.imie,self.nazwisko, '00145678901')
+    
+    def test_promo_year_01_wrong_promo_code(self):
+        konto = Konto(self.imie,self.nazwisko, '00145678901', "PRAZ_XYZZ")
+
+    def test_promo_year_59_correct_promo_code(self):
+        konto = Konto(self.imie,self.nazwisko, 59345678901, "PROM_XYZ")
     #tutaj proszę dodawać nowe testy
