@@ -3,4 +3,7 @@ class Konto:
         self.imie = imie
         self.nazwisko = nazwisko
         self.saldo = 0
-        self.pesel = pesel
+        if len(pesel) != 11:
+            self.pesel = "Niepoprawny Pesel!"
+        else:
+            self.pesel = pesel
