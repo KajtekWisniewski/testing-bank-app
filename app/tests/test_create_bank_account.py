@@ -6,7 +6,7 @@ class TestCreateBankAccount(unittest.TestCase):
 
     imie = 'Dariusz'
     nazwisko ='Januszewski'
-    pesel = '89345678901'
+    pesel = '89045678901'
     kodrabatowy = 'PROM_XYZ'
 
     def test_tworzenie_konta(self):
@@ -41,24 +41,30 @@ class TestCreateBankAccount(unittest.TestCase):
         self.assertEqual(konto.saldo, 0, "Saldo nie jest zerowe")
 
     def test_promo_correct(self):
-        konto = Konto(self.imie, self.nazwisko, self.pesel,"PROM_XYZ")
-        self.assertEqual(konto.saldo, 50, "promo nie naliczone")
+        konto = Konto(self.imie, self.nazwisko, self.pesel, self.kodrabatowy)
+        self.assertEqual(konto.saldo, 50, "promocja nienaliczona")
 
     def test_promo_year_59(self):
-        konto = Konto(self.imie,self.nazwisko, 59345678901)
+        konto = Konto(self.imie,self.nazwisko, '59045678901', self.kodrabatowy)
+        self.assertEqual(konto.saldo, 0, "promocja niepoprawnie naliczona")
 
     def test_promo_year_60(self):
-        konto = Konto(self.imie,self.nazwisko, 89345678901)
+        konto = Konto(self.imie,self.nazwisko, '60045678901', self.kodrabatowy)
+        self.assertEqual(konto.saldo, 0, "promocja niepoprawnie naliczona")
 
     def test_promo_year_89(self):
-        konto = Konto(self.imie,self.nazwisko, self.pesel)
+        konto = Konto(self.imie,self.nazwisko, self.pesel, self.kodrabatowy)
+        self.assertEqual(konto.saldo, 50, "promocja nienaliczona")
     
     def test_promo_year_01(self):
-        konto = Konto(self.imie,self.nazwisko, '00145678901')
+        konto = Konto(self.imie,self.nazwisko, '01245678901', self.kodrabatowy)
+        self.assertEqual(konto.saldo, 50, "promocja nienaliczona")
     
     def test_promo_year_01_wrong_promo_code(self):
-        konto = Konto(self.imie,self.nazwisko, '00145678901', "PRAZ_XYZZ")
+        konto = Konto(self.imie,self.nazwisko, '01245678901', "PRAZ_XYZZ")
+        self.assertEqual(konto.saldo, 0, "promocja niepoprwanie naliczona")
 
     def test_promo_year_59_correct_promo_code(self):
-        konto = Konto(self.imie,self.nazwisko, 59345678901, "PROM_XYZ")
+        konto = Konto(self.imie,self.nazwisko, '59045678901', self.kodrabatowy)
+        self.assertEqual(konto.saldo, 0, "promocja niepoprawnie naliczona")
     #tutaj proszę dodawać nowe testy
