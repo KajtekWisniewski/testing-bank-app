@@ -37,5 +37,15 @@ class Konto:
         if customer_age > 60:
             return False
         return True
+    
+    def incoming_transfer(self, amount):
+        if amount > 0:
+            self.saldo += amount
+    
+    def outgoing_transfer(self, amount):
+        if amount > 0 and amount <= self.saldo:
+            self.saldo -= amount
+    
+        
 
     
