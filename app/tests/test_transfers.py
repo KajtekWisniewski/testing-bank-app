@@ -24,9 +24,9 @@ class TestTransfer(unittest.TestCase):
         self.assertEqual(first_acc.balance, 100, "Srodki nie dotarly")
 
     # def test_incoming_transfer_0(self):
-    #     first_acc = Konto(self.personal_data("name"), self.personal_data("surname"), self.personal_data("pesel"))
+    #     first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
     #     first_acc.incoming_transfer(0)
-    #     self.assertEqual(first_acc.saldo, "invalid_transfer", "Srodki nie dotarly")
+    #     self.assertEqual(first_acc.balance, 0, "Srodki niepoprawnie dotarly")
 
     def test_incoming_transfer_incorrect_amount(self):
         first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
@@ -49,3 +49,9 @@ class TestTransfer(unittest.TestCase):
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.incoming_transfer(100)
         self.assertEqual(first_company_acc.balance, 100, "Srodki nie dotarly")
+
+    def test_company_outcoming_transfer(self):
+        first_company_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_company_acc.balance = 150
+        first_company_acc.outgoing_transfer(100)
+        self.assertEqual(first_company_acc.balance, 50, "Saldo nie jest poprawne")

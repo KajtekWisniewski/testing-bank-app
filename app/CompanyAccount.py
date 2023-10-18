@@ -7,7 +7,7 @@ class CompanyAccount(Account):
         self.companyName = companyName
         self.balance = 0
         if len(NIP) != 10:
-            self.NIP = "Niepoprawny NIP!"
+            self.NIP = "Invalid NIP!"
         else:
             self.NIP = NIP
 
