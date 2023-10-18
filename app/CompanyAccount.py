@@ -10,7 +10,11 @@ class CompanyAccount(Account):
             self.NIP = "Invalid NIP!"
         else:
             self.NIP = NIP
-
+    
+    def express_transfer(self, amount):
+        if amount > 0:
+            self.outgoing_transfer(amount+5)
+    
 
 
         

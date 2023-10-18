@@ -40,4 +40,7 @@ class CustomerAccount(Account):
             return False
         return True
     
+    def express_transfer(self, amount):
+        if amount > 0:
+            self.outgoing_transfer(amount+1)
     

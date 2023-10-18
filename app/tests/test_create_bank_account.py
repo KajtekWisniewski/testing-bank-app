@@ -6,13 +6,12 @@ from ..CompanyAccount import CompanyAccount
 
 class TestCreateBankAccount(unittest.TestCase):
 
+    # customer account section #
+
     imie = 'Dariusz'
     nazwisko ='Januszewski'
     pesel = '89045678901'
     kodrabatowy = 'PROM_XYZ'
-
-    companyName = "UG"
-    NIP = "8904567890"
 
     def test_tworzenie_konta(self):
         first_acc = CustomerAccount(self.imie, self.nazwisko, self.pesel)
@@ -72,6 +71,11 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_promo_year_59_correct_promo_code(self):
         konto = CustomerAccount(self.imie,self.nazwisko, '59045678901', self.kodrabatowy)
         self.assertEqual(konto.balance, 0, "promocja niepoprawnie naliczona")
+
+    # company account section #
+
+    companyName = "UG"
+    NIP = "8904567890"
 
     def test_creating_company_acc(self):
         first_acc = CompanyAccount(self.companyName, self.NIP)

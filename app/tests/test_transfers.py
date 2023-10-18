@@ -50,8 +50,20 @@ class TestTransfer(unittest.TestCase):
         first_company_acc.incoming_transfer(100)
         self.assertEqual(first_company_acc.balance, 100, "Srodki nie dotarly")
 
-    def test_company_outcoming_transfer(self):
-        first_company_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+    def test_company_express_transfer(self):
+        first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
-        first_company_acc.outgoing_transfer(100)
-        self.assertEqual(first_company_acc.balance, 50, "Saldo nie jest poprawne")
+        first_company_acc.express_transfer(100)
+        self.assertEqual(first_company_acc.balance, 45, "Saldo nie jest poprawne")
+
+    def test_customer_express_transfer(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.express_transfer(100)
+        self.assertEqual(first_acc.balance, 49, "Saldo nie jest poprawne")
+    
+    def test_customer_express_transfer_1(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 3
+        first_acc.express_transfer(3)
+        self.assertEqual(first_acc.balance, -1, "Saldo nie jest poprawne")
