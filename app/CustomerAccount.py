@@ -5,6 +5,7 @@ class CustomerAccount(Account):
         self.imie = imie
         self.nazwisko = nazwisko
         self.balance = 0
+        self.express_transfer_fee = 1
         if len(pesel) != 11:
             self.pesel = "Niepoprawny Pesel!"
         else:
@@ -42,5 +43,6 @@ class CustomerAccount(Account):
     
     def express_transfer(self, amount):
         if amount > 0:
-            self.outgoing_transfer(amount+1)
+            self.outgoing_transfer(amount)
+            self.balance-= self.express_transfer_fee
     
