@@ -1,16 +1,19 @@
-class Konto:
+from .Account import Account
+
+class CustomerAccount(Account):
     def __init__(self, imie, nazwisko,pesel, promo_code = None):
         self.imie = imie
         self.nazwisko = nazwisko
-        self.saldo = 0
+        self.balance = 0
+        self.express_transfer_fee = 1
         if len(pesel) != 11:
             self.pesel = "Niepoprawny Pesel!"
         else:
             self.pesel = pesel
         if self.is_promo_code_correct(promo_code) and self.is_customer_eligible_for_promo(pesel):
-            self.saldo = 50
+            self.balance = 50
         else:
-            self.saldo = 0
+            self.balance = 0
     
     def is_promo_code_correct(self, promo_code):
         if promo_code is None:
@@ -37,5 +40,9 @@ class Konto:
         if customer_age > 60:
             return False
         return True
-
+    
+    def express_transfer(self, amount):
+        if amount > 0:
+            self.outgoing_transfer(amount)
+            self.balance-= self.express_transfer_fee
     
