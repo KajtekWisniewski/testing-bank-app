@@ -6,6 +6,7 @@ class CompanyAccount(Account):
     def __init__(self, companyName, NIP):
         self.companyName = companyName
         self.balance = 0
+        self.history = []
         self.express_transfer_fee = 5
         if len(NIP) != 10:
             self.NIP = "Invalid NIP!"
@@ -16,6 +17,7 @@ class CompanyAccount(Account):
         if amount > 0:
             self.outgoing_transfer(amount)
             self.balance -= self.express_transfer_fee
+            self.history.append(-self.express_transfer_fee)
     
 
 

@@ -61,6 +61,13 @@ class TestTransfer(unittest.TestCase):
         first_company_acc.balance = 150
         first_company_acc.express_transfer(150)
         self.assertEqual(first_company_acc.balance, -5, "Saldo nie jest poprawne")
+    
+    def test_company_incoming_history(self):
+        first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
+        first_company_acc.balance = 150
+        first_company_acc.express_transfer(150)
+        self.assertEqual(first_company_acc.history, [-150,-5], "Saldo nie jest poprawne")
+    
 
     def test_customer_express_transfer(self):
         first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
@@ -73,3 +80,22 @@ class TestTransfer(unittest.TestCase):
         first_acc.balance = 3
         first_acc.express_transfer(3)
         self.assertEqual(first_acc.balance, -1, "Saldo nie jest poprawne")
+
+    def test_customer_outgoing_transfer_history(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.outgoing_transfer(100)
+        self.assertEqual(first_acc.history, [-100], "Historia jest pusta")
+    
+    def test_customer_incoming_transfer_history(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.incoming_transfer(100)
+        self.assertEqual(first_acc.history, [100], "Historia jest pusta")
+    
+    def test_customer_express_transfer_history(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.express_transfer(100)
+        self.assertEqual(first_acc.history, [-100, -1], "Historia jest pusta")
+
