@@ -3,7 +3,7 @@ import unittest
 from ..Account import Account
 from ..CustomerAccount import CustomerAccount
 from ..CompanyAccount import CompanyAccount
-
+from parameterized import parameterized
 
 
 
@@ -17,6 +17,17 @@ class TestTransfer(unittest.TestCase):
         "companyName": "University",
         "NIP": "9845857821"
     }
+
+    def setUp(self):
+        self.account = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+
+    #example for setUp
+    #self.account.history = history
+    #is_credit_accepted = self.account.get_credit(amount)
+
+    #@parameterized.expand([
+    # ([100, 100, 100], 500, True, 500)
+    # ])
 
     def test_incoming_transfer(self):
         first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])

@@ -66,3 +66,27 @@ class CustomerAccount(Account):
                 self.balance+=amount
                 self.history.append(amount)
                 return True
+    
+    #refactor
+
+    def customer_get_credit_refactor(self, amount):
+        if self.last_n_transactions_were_positive(3) or self.calculate_sum_of_n_transactions(5) > amount:
+            self.balance+=amount
+            self.history.append(amount)
+            return True
+        return False
+    
+    def last_n_transactions_were_positive(self, n):
+        if len(self.history > n):
+            return False
+        else:
+            for transaction in self.history[-n:]:
+                if transaction < 0:
+                    return False
+            return True
+                
+    def calculate_sum_of_n_transactions(self, n):
+        if len(self.history) < n:
+            return 0
+        else:
+            return sum(self.history[-n:])
