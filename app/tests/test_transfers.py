@@ -110,5 +110,41 @@ class TestTransfer(unittest.TestCase):
         first_acc.express_transfer(100)
         self.assertEqual(first_acc.history, [-100, -1], "Historia jest pusta")
 
+    def test_customer_get_credit_1st_condition(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-100, 200, 100, 100]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 650, "Nie dodano kredytu")
+        self.assertEqual(first_acc.history, [-100, 200, 100, 100, 500], "Nie dodano do historii")
+        self.assertTrue(is_given)
+
+    def test_customer_get_credit_2nd_condition(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-100, 200, 100, 600, -200]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 650, "Nie dodano kredytu")
+        self.assertEqual(first_acc.history, [-100, 200, 100, 600, -200, 500], "Nie dodano do historii")
+        self.assertTrue(is_given)
+    
+    def test_customer_get_credit_not_enough_transactions(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-100, 200]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 150, "Blednie dodano kredyt")
+        self.assertEqual(first_acc.history, [-100, 200], "Blednie dodano do historii")
+        self.assertFalse(is_given)
+    
+    def test_customer_get_credit_wrong_first_condition(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-100, 200, 500]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 150, "Blednie dodano kredyt")
+        self.assertEqual(first_acc.history, [-100, 200, 500], "Blednie dodano do historii")
+        self.assertFalse(is_given)
+    
     
 
