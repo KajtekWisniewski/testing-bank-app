@@ -164,4 +164,22 @@ class TestTransfer(unittest.TestCase):
         self.assertEqual(first_acc.history, [-900, -300, 200, 100, 500, 500], "Nie dodano do historii")
         self.assertTrue(is_given)
     
+    def test_customer_get_credit_empty_history(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = []
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 150, "Blednie dodano kredyt")
+        self.assertEqual(first_acc.history, [], " Blednie dodano do historii")
+        self.assertFalse(is_given)
+    
+    def test_customer_get_credit_long_list_(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-100,-300,500,-300,-200,100,100,100]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 650, "Blednie NIE dodano kredyt")
+        self.assertEqual(first_acc.history, [-100,-300,500,-300,-200,100,100,100, 500], " Blednie NIE dodano do historii")
+        self.assertTrue(is_given)
+    
 
