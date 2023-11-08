@@ -91,3 +91,8 @@ class TestCreateBankAccount(unittest.TestCase):
         first_acc = CompanyAccount(self.companyName, "890456789011")
         self.assertEqual(first_acc.NIP, "Invalid NIP!", "NIP is too long")
     #tutaj proszę dodawać nowe testy
+
+    def test_account(self):
+        first_acc = Account()
+        self.assertEqual(first_acc.balance, 0, "Niezerowe saldo")
+        self.assertEqual(first_acc.history, [], "Niepusta historia")

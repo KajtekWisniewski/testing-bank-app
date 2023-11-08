@@ -145,6 +145,23 @@ class TestTransfer(unittest.TestCase):
         self.assertEqual(first_acc.balance, 150, "Blednie dodano kredyt")
         self.assertEqual(first_acc.history, [-100, 200, 500], "Blednie dodano do historii")
         self.assertFalse(is_given)
+
+    def test_customer_get_credit_wrong_second_condition(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-900, -300, 200, 100, -500]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 150, "Blednie dodano kredyt")
+        self.assertEqual(first_acc.history, [-900, -300, 200, 100, -500], "Blednie dodano do historii")
+        self.assertFalse(is_given)
     
+    def test_customer_get_credit_wrong_second_condition_but_first_correct(self):
+        first_acc = CustomerAccount(self.personal_data["name"], self.personal_data["surname"], self.personal_data["pesel"])
+        first_acc.balance = 150
+        first_acc.history = [-900, -300, 200, 100, 500]
+        is_given = first_acc.customer_get_credit(500)
+        self.assertEqual(first_acc.balance, 650, "Nie dodano kredyt")
+        self.assertEqual(first_acc.history, [-900, -300, 200, 100, 500, 500], "Nie dodano do historii")
+        self.assertTrue(is_given)
     
 
