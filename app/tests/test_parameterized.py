@@ -23,6 +23,8 @@ class TestCredit(unittest.TestCase):
     @parameterized.expand([
     ([100, 100, 1775], 5000, 1200, True, 6200),
     ([100, 100, 100], 500, 900, False, 500),
+    ([100, 1775, 100], 500, 900, False, 500),
+    ([100, 100, 100], 5000, 900, False, 5000)
     ])
 
     
