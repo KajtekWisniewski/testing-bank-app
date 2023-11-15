@@ -26,7 +26,7 @@ class CompanyAccount(Account):
             return False
     
     def check_zus_requirement(self, history):
-        if 1775 in history:
+        if -1775 in history:
             return True
         else:
             return False
