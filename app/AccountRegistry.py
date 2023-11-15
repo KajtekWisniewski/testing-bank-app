@@ -16,6 +16,9 @@ class RegisterAccount():
         return len(cls.listOfAccounts)
     
     @classmethod
-    def find_account_with_pesel(cls):
-        cls.listOfAccount
-        return None
+    def find_account_with_pesel(cls, pesel):
+        accountToFind = next((account for account in cls.listOfAccounts if account.pesel == pesel), None)
+        if accountToFind is not None:
+            return accountToFind.pesel
+        else:
+            return None

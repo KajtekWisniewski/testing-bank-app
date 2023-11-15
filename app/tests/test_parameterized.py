@@ -12,6 +12,10 @@ class TestCredit(unittest.TestCase):
     companyName = "UG"
     NIP = "8904567890"
 
+    name = "Jack"
+    nazwisko = "Menel"
+    pesel = "89045678901"
+
     # @parameterized.expand([
     # ([100, 100, 100], 500, True, 500),
     # ([100, 100, 100], -200, 500, False, 0),])
@@ -38,7 +42,21 @@ class TestCredit(unittest.TestCase):
         self.assertEqual(is_loan, expected_output)
 
     #setup
+    #f14 tests
     @classmethod
     def setUpClass(cls):
-        konto = CustomerAccount(cls.name, cls.nazwisko, cls.pesel)
-        AccountRegistry.add_account(account)
+        account = CustomerAccount(cls.name, cls.nazwisko, cls.pesel)
+        RegisterAccount.add_account(account)
+    
+    def test_adding_first_acc(self):
+        acc = CustomerAccount(self.name, self.nazwisko, self.pesel)
+        acc1 = CustomerAccount(self.name + "ddd", self.nazwisko, "89045678902")
+        RegisterAccount.add_account(acc)
+        RegisterAccount.add_account(acc1)
+        self.assertEqual(RegisterAccount.how_many_accs(), 3)
+        self.assertEqual(RegisterAccount.find_account_with_pesel(self.pesel), acc.pesel)
+        self.assertEqual(RegisterAccount.find_account_with_pesel("89045678903"), None)
+
+    @classmethod
+    def tearDownClass(cls):
+        RegisterAccount.listOfAccounts = []
