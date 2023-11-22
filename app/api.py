@@ -18,4 +18,10 @@ def how_many_accs():
     count = RegisterAccount.how_many_accs()
     return jsonify({"message": f"There are {count} accounts in the database"}), 201
 
-
+@app.route("/api/accounts/<pesel>", methods=['GET'])
+def find_acc_with_pesel(pesel):
+    acc = RegisterAccount.find_account_with_pesel(pesel)
+    if acc != None:
+        return jsonify({"name": acc.imie, "nazwisko": acc.nazwisko, "pesel": acc.pesel})
+    else:
+        return jsonify({"message": "account not found"}), 404
