@@ -1,4 +1,4 @@
-from .Account import Account
+#from .Account import Account
 
 class RegisterAccount():
 
@@ -19,6 +19,6 @@ class RegisterAccount():
     def find_account_with_pesel(cls, pesel):
         accountToFind = next((account for account in cls.listOfAccounts if account.pesel == pesel), None)
         if accountToFind is not None:
-            return accountToFind.pesel
+            return accountToFind
         else:
             return None
