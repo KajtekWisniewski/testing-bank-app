@@ -22,6 +22,11 @@ def how_many_accs():
 def find_acc_with_pesel(pesel):
     acc = RegisterAccount.find_account_with_pesel(pesel)
     if acc != None:
-        return jsonify({"name": acc.imie, "nazwisko": acc.nazwisko, "pesel": acc.pesel})
+        return jsonify({"name": acc.imie, "nazwisko": acc.nazwisko, "pesel": acc.pesel, "balance": acc.balance}), 201
     else:
         return jsonify({"message": "account not found"}), 404
+    
+@app.route("/api/accounts/PURGE", methods=['DELETE'])
+def empty_cls_list():
+    RegisterAccount.empty_list_of_accounts()
+    return jsonify({"message": "sucessfuly emptied the list"}), 201
