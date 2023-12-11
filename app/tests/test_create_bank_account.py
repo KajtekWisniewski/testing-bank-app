@@ -52,6 +52,16 @@ class TestCreateBankAccount(unittest.TestCase):
         konto = CustomerAccount(self.imie,self.nazwisko, '59045678901', self.kodrabatowy)
         self.assertEqual(konto.balance, 0, "promocja niepoprawnie naliczona")
 
+    def test_promo_year_59_wrong_pesel_none(self):
+        konto = CustomerAccount(self.imie,self.nazwisko, '59045678901152', self.kodrabatowy)
+        is_none = konto.get_customer_age('Niepoprawny Pesel!')
+        self.assertEqual(is_none, None, "nie jest none")
+
+    def test_promo_is_customer_eligible(self):
+        konto = CustomerAccount(self.imie,self.nazwisko, '59045678901152', self.kodrabatowy)
+        is_none = konto.is_customer_eligible_for_promo('Niepoprawny Pesel!')
+        self.assertFalse(is_none)
+
     def test_promo_year_60(self):
         konto = CustomerAccount(self.imie,self.nazwisko, '60045678901', self.kodrabatowy)
         self.assertEqual(konto.balance, 0, "promocja niepoprawnie naliczona")
@@ -91,3 +101,8 @@ class TestCreateBankAccount(unittest.TestCase):
         first_acc = CompanyAccount(self.companyName, "890456789011")
         self.assertEqual(first_acc.NIP, "Invalid NIP!", "NIP is too long")
     #tutaj proszę dodawać nowe testy
+
+    def test_account(self):
+        first_acc = Account()
+        self.assertEqual(first_acc.balance, 0, "Niezerowe saldo")
+        self.assertEqual(first_acc.history, [], "Niepusta historia")

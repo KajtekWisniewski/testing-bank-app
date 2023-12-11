@@ -48,3 +48,45 @@ class CustomerAccount(Account):
             self.balance-= self.express_transfer_fee
             self.history.append(-self.express_transfer_fee)
     
+    def customer_get_credit(self, amount):
+        if len(self.history) < 3:
+            return False
+        else:
+            counter = 0
+            temp = self.history[-3:]
+            for n in temp:
+                if n > 0:
+                    counter+=1
+            if counter == 3:
+                self.balance+=amount
+                self.history.append(amount)
+                return True
+        if len(self.history) >= 5:
+            if sum(self.history) > amount:
+                self.balance+=amount
+                self.history.append(amount)
+                return True
+    
+    #refactor
+
+    def customer_get_credit_refactor(self, amount):
+        if self.last_n_transactions_were_positive(3) or self.calculate_sum_of_n_transactions(5) > amount:
+            self.balance+=amount
+            self.history.append(amount)
+            return True
+        return False
+    
+    def last_n_transactions_were_positive(self, n):
+        if len(self.history > n):
+            return False
+        else:
+            for transaction in self.history[-n:]:
+                if transaction < 0:
+                    return False
+            return True
+                
+    def calculate_sum_of_n_transactions(self, n):
+        if len(self.history) < n:
+            return 0
+        else:
+            return sum(self.history[-n:])
