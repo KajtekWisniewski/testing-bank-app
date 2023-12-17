@@ -22,9 +22,3 @@ class RegisterAccount():
             return accountToFind
         else:
             return None
-    
-    @classmethod
-    def empty_list_of_accounts(cls):
-        cls.listOfAccounts = []
-        return cls.listOfAccounts
-    

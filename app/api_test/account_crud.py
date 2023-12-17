@@ -45,4 +45,8 @@ class testAccountCrud(unittest.TestCase):
         self.assertEqual(r.status_code, 201)
         self.assertEqual(r.json(), {"message": "sucessfuly emptied the list"})
 
+#python -m unittest app/api_test/account_crud.py
+#python -m flask --debug --app app/api.py run
+#python -m coverage run -m unittest
+#python -m coverage report
     
