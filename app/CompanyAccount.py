@@ -1,5 +1,5 @@
 #refactor na dziedziczenie
-
+import requests
 from .Account import Account
 
 class CompanyAccount(Account):
@@ -36,4 +36,13 @@ class CompanyAccount(Account):
             self.balance+=amount
             return True
         else:
+            return False
+        
+    def query_for_api(self, NIP):
+        r = requests.get(f"https://wl-api.mf.gov.pl/api/search/nip/${NIP}?date=2023-12-17")
+        if r.status_code == 200:
+            print(r.status_code)
+            return True
+        else:
+            print(r.status_code)
             return False
