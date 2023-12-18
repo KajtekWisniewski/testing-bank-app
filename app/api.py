@@ -9,9 +9,13 @@ app = Flask(__name__)
 def create_account():
     data = request.get_json()
     print(f'Create account with data: {data}')
-    acc = CustomerAccount(data["imie"], data["nazwisko"], data["pesel"])
-    RegisterAccount.add_account(acc)
-    return jsonify({"message": "Account Created"}), 201
+    acc = RegisterAccount.find_account_with_pesel(data["pesel"])
+    if acc == None:
+        acc = CustomerAccount(data["imie"], data["nazwisko"], data["pesel"])
+        RegisterAccount.add_account(acc)
+        return jsonify({"message": "Account Created"}), 201
+    else:
+        return jsonify({"message": "Account with given pesel already exists"}), 409
 
 @app.route("/api/accounts/count", methods=['GET'])
 def how_many_accs():
@@ -54,3 +58,18 @@ def delete_acc_by_pesel(pesel):
 def empty_cls_list():
     RegisterAccount.listOfAccounts = []
     return jsonify({"message": "sucessfuly emptied the list"}), 201
+
+@app.route("/api/accounts/<pesel>/transfer", methods=['POST'])
+def transfer_through_api(pesel):
+    acc = RegisterAccount.find_account_with_pesel(pesel)
+    data = request.get_json()
+    if acc != None:
+        if data["type"] == "incoming":
+            acc.incoming_transfer(data["amount"])
+            return jsonify({"message": "incoming transfer accepted for fulfillment"}), 200
+        elif data["type"] == "outgoing":
+            acc.outgoing_transfer(data["amount"])
+            return jsonify({"message": "outgoing transfer accepted for fulfillment"}), 200
+    else:
+        return jsonify({"message": "account not found"}), 404
+
