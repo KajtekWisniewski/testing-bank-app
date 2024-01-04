@@ -3,6 +3,7 @@ import unittest
 from ..Account import Account
 from ..CustomerAccount import CustomerAccount
 from ..CompanyAccount import CompanyAccount
+from unittest.mock import patch, MagicMock
 
 class TestCreateBankAccount(unittest.TestCase):
 
@@ -85,7 +86,7 @@ class TestCreateBankAccount(unittest.TestCase):
     # company account section #
 
     companyName = "UG"
-    NIP = "8904567890"
+    NIP = "8461627563"
 
     def test_creating_company_acc(self):
         first_acc = CompanyAccount(self.companyName, self.NIP)
@@ -100,7 +101,27 @@ class TestCreateBankAccount(unittest.TestCase):
     def test_NIP_with_len_11(self):
         first_acc = CompanyAccount(self.companyName, "890456789011")
         self.assertEqual(first_acc.NIP, "Invalid NIP!", "NIP is too long")
-    #tutaj proszę dodawać nowe testy
+    
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_NIP_that_deosnt_exist(self, mock_query_for_api):
+        
+        mock_query_for_api.return_value = False
+
+        with self.assertRaises(ValueError) as context:
+            first_acc = CompanyAccount(self.companyName, "8461627562")
+        self.assertEqual(str(context.exception), "This NIP doesnt exist", "Unexpected error message")
+
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_query_for_api_false(self, mock_query_for_api):
+        mock_query_for_api.return_value = False
+
+        result = CompanyAccount.query_for_api("8461627562", "https://wl-test.mf.gov.pl/api/search/nip/8461627563?date=2023-12-01")
+        self.assertEqual(result, False)
+
+    def test_query_for_api_false_no_mock(self):
+
+        result = CompanyAccount.query_for_api(self, "8461627562", "https://wl-test.mf.gov.pl/api/search/nip/8461627563?date=2023-12-01")
+        self.assertEqual(result, False)
 
     def test_account(self):
         first_acc = Account()

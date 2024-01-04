@@ -4,7 +4,7 @@ from ..Account import Account
 from ..CustomerAccount import CustomerAccount
 from ..CompanyAccount import CompanyAccount
 from parameterized import parameterized
-
+from unittest.mock import patch, MagicMock
 
 
 class TestTransfer(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestTransfer(unittest.TestCase):
     }
     company_data = {
         "companyName": "University",
-        "NIP": "9845857821"
+        "NIP": "8461627563"
     }
 
     def setUp(self):
@@ -56,36 +56,48 @@ class TestTransfer(unittest.TestCase):
         first_acc.outgoing_transfer(100)
         self.assertEqual(first_acc.balance, 50, "Saldo nie jest poprawne")
     
-    def test_company_incoming_transfer(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_incoming_transfer(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.incoming_transfer(100)
         self.assertEqual(first_company_acc.balance, 100, "Srodki nie dotarly")
 
-    def test_company_express_transfer(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_express_transfer(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
         first_company_acc.express_transfer(100)
         self.assertEqual(first_company_acc.balance, 45, "Saldo nie jest poprawne")
 
-    def test_company_express_transfer_5(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_express_transfer_5(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
         first_company_acc.express_transfer(150)
         self.assertEqual(first_company_acc.balance, -5, "Saldo nie jest poprawne")
-    
-    def test_company_express_history(self):
+
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_express_history(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
         first_company_acc.express_transfer(150)
         self.assertEqual(first_company_acc.history, [-150,-5], "Saldo nie jest poprawne")
 
-    def test_company_incoming_history(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_incoming_history(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
         first_company_acc.incoming_transfer(150)
         self.assertEqual(first_company_acc.history, [150], "Saldo nie jest poprawne") 
 
-    def test_company_outgoing_history(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_company_outgoing_history(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_company_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_company_acc.balance = 150
         first_company_acc.outgoing_transfer(150)

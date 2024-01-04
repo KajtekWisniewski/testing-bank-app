@@ -1,5 +1,6 @@
 #refactor na dziedziczenie
-
+import os
+import requests
 from .Account import Account
 
 class CompanyAccount(Account):
@@ -8,10 +9,13 @@ class CompanyAccount(Account):
         self.balance = 0
         self.history = []
         self.express_transfer_fee = 5
+        api_url = os.environ.get('BANK_APP_MF_URL', 'https://wl-test.mf.gov.pl')
         if len(NIP) != 10:
             self.NIP = "Invalid NIP!"
         else:
             self.NIP = NIP
+            if not self.query_for_api(self.NIP, api_url):
+                raise ValueError("This NIP doesnt exist")
     
     def express_transfer(self, amount):
         if amount > 0:
@@ -34,6 +38,14 @@ class CompanyAccount(Account):
     def get_credit(self, amount, history):
         if self.check_balance_for_credit(amount) and self.check_zus_requirement(history):
             self.balance+=amount
+            return True
+        else:
+            return False
+    
+    def query_for_api(self, NIP, apiURL):
+        r = requests.get(f"{apiURL}/api/search/nip/{NIP}?date=2023-12-17")
+        if r.status_code == 200:
+            print(r.status_code, r.json())
             return True
         else:
             return False
