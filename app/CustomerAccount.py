@@ -90,3 +90,5 @@ class CustomerAccount(Account):
     #         return 0
     #     else:
     #         return sum(self.history[-n:])
+    
+    # POWYZSZY KOD JEST DO REFACTORA #
