@@ -1,4 +1,6 @@
 from .Account import Account
+from .SMTPConnection import SMTPConnection
+from datetime import date
 
 class CustomerAccount(Account):
     def __init__(self, imie, nazwisko,pesel, promo_code = None):
@@ -92,3 +94,9 @@ class CustomerAccount(Account):
     #         return sum(self.history[-n:])
     
     # POWYZSZY KOD JEST DO REFACTORA #
+            
+    def send_customer_mail_history(self, adresat, instanceSMTPConnection):
+        today = date.today()
+        temat = f"Wyciag z dnia {today}"
+        tresc = f"Historia konta to: {self.history}"
+        return instanceSMTPConnection.wyslij(temat,tresc,adresat)

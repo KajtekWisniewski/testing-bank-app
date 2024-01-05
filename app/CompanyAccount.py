@@ -2,6 +2,8 @@
 import os
 import requests
 from .Account import Account
+from .SMTPConnection import SMTPConnection
+from datetime import date
 
 class CompanyAccount(Account):
     def __init__(self, companyName, NIP):
@@ -49,3 +51,9 @@ class CompanyAccount(Account):
             return True
         else:
             return False
+        
+    def send_company_mail_history(self, adresat, instanceSMTPConnection):
+        today = date.today()
+        temat = f"Wyciag z dnia {today}"
+        tresc = f"Historia konta Twojej firmy to: {self.history}"
+        return instanceSMTPConnection.wyslij(temat,tresc,adresat)

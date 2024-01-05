@@ -88,7 +88,9 @@ class TestCreateBankAccount(unittest.TestCase):
     companyName = "UG"
     NIP = "8461627563"
 
-    def test_creating_company_acc(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_creating_company_acc(self, mock_query_for_api):
+        mock_query_for_api.return_value = True
         first_acc = CompanyAccount(self.companyName, self.NIP)
         self.assertEqual(first_acc.companyName, self.companyName, "Company name has not been saved!")
         self.assertEqual(first_acc.balance, 0, "Saldo nie jest zerowe!")
