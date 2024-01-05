@@ -49,9 +49,11 @@ class TestSMTPConnection(unittest.TestCase):
         smtp_connection_mock.wyslij.assert_called_once_with(poprawny_temat, poprawna_tresc, "test@example.com")
         self.assertFalse(result)
     
-    def test_sending_company_mail_history_true(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_sending_company_mail_history_true(self, mock_query_for_api):
         smtp_connection_mock = MagicMock(spec=SMTPConnection)     
         smtp_connection_mock.wyslij.return_value = True
+        mock_query_for_api.return_value = True
 
         first_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_acc.history = [-100, 200, 100]
@@ -64,9 +66,11 @@ class TestSMTPConnection(unittest.TestCase):
         smtp_connection_mock.wyslij.assert_called_once_with(poprawny_temat, poprawna_tresc, "test@example.com")
         self.assertTrue(result)
     
-    def test_sending_company_mail_history_false(self):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_sending_company_mail_history_false(self, mock_query_for_api):
         smtp_connection_mock = MagicMock(spec=SMTPConnection)     
         smtp_connection_mock.wyslij.return_value = False
+        mock_query_for_api.return_value = True
 
         first_acc = CompanyAccount(self.company_data["companyName"], self.company_data["NIP"])
         first_acc.history = [-100, 200, 100]

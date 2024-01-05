@@ -122,7 +122,7 @@ class TestCreateBankAccount(unittest.TestCase):
 
     def test_query_for_api_false_no_mock(self):
 
-        result = CompanyAccount.query_for_api(self, "8461627562", "https://wl-api.mf.gov.pl/api/search/nip/8461627561?date=2023-12-01")
+        result = CompanyAccount.query_for_api(self, "8461627562", "https://wl-test.mf.gov.pl/api/search/nip/8461627563?date=2023-12-01")
         self.assertEqual(result, False)
 
     def test_account(self):
