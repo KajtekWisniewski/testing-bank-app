@@ -4,6 +4,7 @@ from ..Account import Account
 from ..CustomerAccount import CustomerAccount
 from ..CompanyAccount import CompanyAccount
 from ..AccountRegistry import RegisterAccount
+from unittest.mock import patch, MagicMock
 
 from parameterized import parameterized
 
@@ -32,8 +33,9 @@ class TestCredit(unittest.TestCase):
     ([100, 100, 100], 5000, 900, False, 5000)
     ])
 
-    
-    def test_loan_take_out(self, history, balance, loan_amount, expected_output, expected_balance):
+    @patch('app.CompanyAccount.CompanyAccount.query_for_api')
+    def test_loan_take_out(self, history, balance, loan_amount, expected_output, expected_balance, mock_query_for_api):
+        mock_query_for_api.return_value = True
         account = CompanyAccount(self.companyName, self.NIP)
         account.balance = balance
         account.history = history
