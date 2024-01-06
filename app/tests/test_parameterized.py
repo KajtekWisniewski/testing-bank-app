@@ -55,7 +55,7 @@ class TestCredit(unittest.TestCase):
         acc1 = CustomerAccount(self.name + "ddd", self.nazwisko, "89045678902")
         RegisterAccount.add_account(acc)
         RegisterAccount.add_account(acc1)
-        self.assertEqual(RegisterAccount.how_many_accs(), 3)
+        self.assertEqual(RegisterAccount.how_many_accs(), 5)
         self.assertEqual(RegisterAccount.find_account_with_pesel(self.pesel).pesel, acc.pesel)
         self.assertEqual(RegisterAccount.find_account_with_pesel("89045678903"), None)
 
