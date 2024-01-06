@@ -89,6 +89,14 @@ class testAccountCrud(unittest.TestCase):
         r = requests.delete(self.url+"/PURGE")
         self.assertEqual(r.status_code, 201)
         self.assertEqual(r.json(), {"message": "sucessfuly emptied the list"})
+    
+    def test_8g_save_method(self):
+        r = requests.patch(self.url+"/save")
+        self.assertEqual(r.json(), {"message": "successfuly saved"})
+
+    def test_8h_load_method(self):
+        r = requests.patch(self.url+"/load")
+        self.assertEqual(r.json(), {"message": "successfuly loaded"})
 
 #python -m unittest app/api_test/account_crud.py
 #python -m flask --debug --app app/api.py run
