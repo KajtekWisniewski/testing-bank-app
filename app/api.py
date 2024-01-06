@@ -73,3 +73,12 @@ def transfer_through_api(pesel):
     else:
         return jsonify({"message": "account not found"}), 404
 
+@app.route("/api/accounts/save", methods=['PATCH'])
+def save_through_api():
+    RegisterAccount.save()
+    return jsonify({"message": "successfuly saved"}), 201
+
+@app.route("/api/accounts/load", methods=['PATCH'])
+def load_through_api():
+    RegisterAccount.load()
+    return jsonify({"message": "successfuly loaded"}), 201
