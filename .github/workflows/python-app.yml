@@ -38,11 +38,13 @@ jobs:
       - name: Test with unittest
         run: |
           python3 -m coverage run -m unittest
-      - name: Test API
+      - name: Run Flask app
         env:
           FLASK_APP: app/api.py
         run: |
           python3 -m flask --app app/api.py run &
+      - name: Test API
+        run: |
           python3 -m pytest app/api_test/account_crud.py
       - name: Test Gherkin features
         run: |
