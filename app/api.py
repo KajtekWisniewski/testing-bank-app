@@ -20,7 +20,7 @@ def create_account():
 @app.route("/api/accounts/count", methods=['GET'])
 def how_many_accs():
     count = RegisterAccount.how_many_accs()
-    return jsonify({"message": f"There are {count} accounts in the database"}), 201
+    return jsonify({"count": f"{count}"}), 201
 
 @app.route("/api/accounts/<pesel>", methods=['GET'])
 def find_acc_with_pesel(pesel):
@@ -35,10 +35,14 @@ def change_acc_by_pesel(pesel):
     acc = RegisterAccount.find_account_with_pesel(pesel)
     data = request.get_json()
     if acc != None:
-        acc.imie = data["imie"]
-        acc.nazwisko = data["nazwisko"]
-        acc.pesel = data["pesel"]
-        acc.balance = data["balance"]
+        if "imie" in data:
+            acc.imie = data["imie"]
+        if "nazwisko" in data:
+            acc.nazwisko = data["nazwisko"]
+        if "pesel" in data:
+            acc.pesel = data["pesel"]
+        if "balance" in data:
+            acc.balance = data["balance"]
         return jsonify({"imie": acc.imie, "nazwisko": acc.nazwisko, "pesel": acc.pesel, "balance": acc.balance}), 201
     else:
         return jsonify({"message": "account not found"}), 404

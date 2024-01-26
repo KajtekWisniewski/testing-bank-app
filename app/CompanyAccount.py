@@ -43,8 +43,10 @@ class CompanyAccount(Account):
             return True
         else:
             return False
-    
-    def query_for_api(self, NIP, apiURL):
+        
+    #to jest no-cover bo testow z mockiem coverage nie lapal, jedynie testy
+    #faktycznie laczace sie z api MF, a te czesto crashuja sie na githubie
+    def query_for_api(self, NIP, apiURL): # pragma: no cover
         r = requests.get(f"{apiURL}/api/search/nip/{NIP}?date=2023-12-17")
         if r.status_code == 200:
             print(r.status_code, r.json())

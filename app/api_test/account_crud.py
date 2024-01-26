@@ -25,7 +25,7 @@ class testAccountCrud(unittest.TestCase):
     def test_4_GetAccountsCount(self):
         r = requests.get(self.url+"/count")
         self.assertEqual(r.status_code, 201)
-        self.assertEqual(r.json(), {"message": "There are 1 accounts in the database"})
+        self.assertEqual(r.json(), {"count": "1"})
     
     def test_5_PatchMethod(self):
         r = requests.patch(self.url+"/89045678902", json={"imie": "Jacek", "nazwisko": "Jaworek", "pesel": "89045678902", "balance": 50})
@@ -38,7 +38,7 @@ class testAccountCrud(unittest.TestCase):
         self.assertEqual(r.json(), {"message": "successfuly deleted"})
         r2 = requests.get(self.url+"/count")
         self.assertEqual(r2.status_code, 201)
-        self.assertEqual(r2.json(), {"message": "There are 0 accounts in the database"})
+        self.assertEqual(r2.json(), {"count": "0"})
 
     def test_7a_unique_pesel(self):
         r = requests.post(self.url, json={"imie": "Jacek", "nazwisko": "Jaworek", "pesel": "89045678902"})
@@ -48,7 +48,7 @@ class testAccountCrud(unittest.TestCase):
     def test_7b_GetAccountsCountIsCorrectAfterWrongPeselAttempt(self):
         r = requests.get(self.url+"/count")
         self.assertEqual(r.status_code, 201)
-        self.assertEqual(r.json(), {"message": "There are 1 accounts in the database"})
+        self.assertEqual(r.json(), {"count": "1"})
     
     def test_8a_Successful_incoming_transfer(self):
         r = requests.post(self.url+"/89045678902/transfer", json={"amount": 550, "type": "incoming"})
@@ -102,4 +102,5 @@ class testAccountCrud(unittest.TestCase):
 #python -m flask --debug --app app/api.py run
 #python -m coverage run -m unittest
 #python -m coverage report
+#docker compose -f mongo.yml up
     
