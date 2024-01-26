@@ -3,3 +3,5 @@ parameterized==0.8.1
 flask
 requests
 pymongo
+behave
+selenium
