@@ -5,3 +5,4 @@ requests
 pymongo
 behave
 selenium
+unittest_assertions
